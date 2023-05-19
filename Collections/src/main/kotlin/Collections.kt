@@ -36,12 +36,14 @@ fun main() {
         println("Recipe1 is : ${mRecipeMap.getValue("Recipe1")}")
     }
 
-    test()
-    arrayTest()
-    listTest()
+//    test()
+//    arrayTest()
+//    listTest()
     mutableListTest()
-    mutableListTest2()
-    setTest()
+//    mutableListTest2()
+//    setTest()
+//    mapTest()
+//    mMapTest()
 }
 
 fun test() {
@@ -106,6 +108,11 @@ fun mutableListTest() {
 
     val mShopping = mutableListOf<String>("Tea", "Eggs", "Milk")
 
+    // 保留指定的項目, 移除其他的項目
+    val toRetain = listOf<String>("Steak", "Eggs")
+    mShopping.retainAll(toRetain) // [Eggs]
+    println("$mShopping")
+
     // 加菜囉
 //    mShopping.add("Steak") // [Tea, Eggs, Milk, Steak]
 //
@@ -124,14 +131,14 @@ fun mutableListTest() {
 //        mShopping[0] = "Coffee"  // [Coffee, Eggs, Steak]
 //    }
 
-    println("-------")
-    println(mShopping)
-    mShopping.sort() // [Coffee, Eggs, Steak]   A-Z
-    println(mShopping)
-    mShopping.reverse() // [Steak, Eggs, Coffee] Z-A
-    println(mShopping)
-    mShopping.shuffle() // [Steak, Eggs, Coffee] 隨機排序
-    println(mShopping)
+//    println("-------")
+//    println(mShopping)
+//    mShopping.sort() // [Coffee, Eggs, Steak]   A-Z
+//    println(mShopping)
+//    mShopping.reverse() // [Steak, Eggs, Coffee] Z-A
+//    println(mShopping)
+//    mShopping.shuffle() // [Steak, Eggs, Coffee] 隨機排序
+//    println(mShopping)
 
     // 原本List: [Eggs, Steak, Coffee]
 
@@ -141,9 +148,7 @@ fun mutableListTest() {
 //    val toRemove = listOf<String>("Milk", "Sugar")
 //    mShopping.removeAll(toRemove) // [Eggs, Steak, Coffee, Cookies]
 
-    // 保留指定的項目, 移除其他的項目
-//    val toRetain = listOf<String>("Steak", "Eggs")
-//    mShopping.retainAll(toRetain) // [Steak, Eggs]
+
 
     // 清空
 //    mShopping.clear()
@@ -214,7 +219,72 @@ fun setTest() {
     if (mShoppingList.size > mShoppingList.toSet().size) {
         println("有重複的值")
     }
-
-
     
+}
+
+fun mapTest() {
+
+    val r1 = Recipe("雞湯")
+    val r2 = Recipe("藜麥沙拉")
+    val r3 = Recipe("泰國咖哩")
+    val recipeMap = mapOf("Recipe1" to r1, "Recipe2" to r2, "Recipe3" to r3)
+    //  val recipeMap: Map<String, Recipe>
+    //  Map<key_type, value_type>
+
+    recipeMap.containsKey("Recipe1")
+    val recipeToCheck = Recipe("雞湯")
+    if (recipeMap.containsValue(recipeToCheck)) {
+        println("煮雞湯不加香菜")
+    }
+
+
+    // 當特定鍵不存在時
+    // get: 回傳null
+    // getValue: 丟出例外
+    if (recipeMap.containsKey("Recipe1")) {
+        println("Recipe1 is : ${recipeMap.getValue("Recipe1")}")
+    }
+
+    for ((key, value) in recipeMap) {
+        println("Key is $key, value is $value")
+    }
+
+}
+
+fun mMapTest() {
+
+    val r1 = Recipe("雞湯")
+    val r2 = Recipe("藜麥沙拉")
+
+    val mRecipeMap = mutableMapOf("Recipe1" to r1, "Recipe2" to r2)
+
+    val r3 = Recipe("泰國咖哩")
+    mRecipeMap.put("Recipe1", r3)
+
+    val r4 = Recipe("什錦飯")
+    val r5 = Recipe("香腸捲麵包")
+    val recipesToAdd = mapOf("Recipe1" to r4, "Recipe5" to r5)
+    mRecipeMap.putAll(recipesToAdd)
+
+    mRecipeMap.remove("Recipe2")
+
+    val recipeToRemove = Recipe("藜麥沙拉")
+    mRecipeMap.remove("Recipe2", recipeToRemove)
+
+    mRecipeMap.clear()
+
+    val recipeMapCopy = mRecipeMap.toMap()
+    // mRecipeMap.toMutableMap()
+    //   mRecipeMap.toMutableList() // Cannot find declaration to go to
+    mRecipeMap.toList()
+
+    // entries 屬性來取得鍵/值
+    val recipeEntries = mRecipeMap.entries
+
+    if (mRecipeMap.size > mRecipeMap.values.toSet().size) {
+        println("mRecipeMap contains duplicates values")
+    }
+
+    mRecipeMap.values.toSet()
+
 }
